@@ -35,7 +35,7 @@
 		const containsChar = (str, targetStr) => { return targetStr.indexOf(str) > -1; }
 		const downloadBtn = document.getElementById("download-button");
 		const ytUrlInput =document.getElementById("youtube-url-input");
-		downloadBtn.onclick = () => { alert("The Invidious API instance used in this website was currently on maintenance. Cannot process this request."); /*
+		downloadBtn.onclick = () => {
 			if (containsChar("youtube.com", ytUrlInput.value)) {
 				const getVurl = ytUrlInput.value.split("v=");
 				if (getVurl.length < 2) {
@@ -43,7 +43,7 @@
 				}
 				const getVurl2 = getVurl[1].split("&");
 				const getVidIdUrl = getVurl2[0];
-				window.location.href = "https://invidious.privacyredirect.com/latest_version?id=" + getVidIdUrl + "&itag=140";
+				window.location.href = "https://invidious.jing.rocks/latest_version?id=" + getVidIdUrl + "&itag=140";
 			} else if (containsChar("youtu.be", ytUrlInput.value)) {
 				const getVurl = ytUrlInput.value.split(".be/");
 				if (getVurl.length < 2) {
@@ -51,12 +51,12 @@
 				}
 				const getVurl2 = getVurl[1].split("?");
 				const getVidIdUrl = getVurl2[0];
-				window.location.href = "https://invidious.privacyredirect.com/latest_version?id=" + getVidIdUrl + "&itag=140";
+				window.location.href = "https://invidious.jing.rocks/latest_version?id=" + getVidIdUrl + "&itag=140";
 			} else if (ytUrlInput.value === "") {
 				alert("URL Empty");
 			} else {
 				alert("Invalid URL");
-			} */
+			}
 		}
 		ytUrlInput.addEventListener("keydown", (event) => {
 			if (event.keyCode === 13) {
