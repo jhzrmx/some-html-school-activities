@@ -12,13 +12,13 @@
 <body>
 	<div class="page-container">
 		<div class="signup-container">
-			<h2 class="semi-title">Sign Up</h2>
+			<h1 class="semi-title">Sign Up</h1>
 			<div class="signup-fields" id="signup-field-1">
 				<form id="form-field-1">
 					<label for="last-name">Last Name</label>
-					<input type="text" name="last-name" required><br>
+					<input type="text" name="last-name" maxlength="50" required><br>
 					<label for="first-name">First Name</label>
-					<input type="text" name="first-name" required><br>
+					<input type="text" name="first-name" maxlength="50" required><br>
 					<label for="birthdate">Birthdate</label>
 					<input type="date" name="birthdate" required><br>
 					<label for="address-1">Address Field 1</label>
@@ -34,13 +34,37 @@
 					<label for="username">Username</label>
 					<input type="text" name="username" required><br>
 					<label for="password">Password</label>
-					<input type="password" name="password" required>
+					<input type="password" name="password" id="password" minlength="8" maxlength="50" required>
+					<label for="confirm-password">Confirm Password</label>
+					<input type="password" name="confirm-password" id="confirm-password" minlength="8" maxlength="50" required>
 				</form>
 			</div>
 			<div>
 				<button id="main-button">Next ></button>
 			</div>
 			<button id="back-button" hidden>Back</button>
+		</div>
+		<div class="dashboard-container" style="display: none;">
+			<nav>
+				<h1>Hi there!</h1>
+			</nav>
+			<div class="area">
+				<div class="content">
+					<img src="hello.jpg" width="240">
+					<div class="description">
+						<p>Here is a sample dashboard page!</p>
+						<p>You entered the following inputs:</p>
+						<ul>
+							<li><p id="full-name-out">Full Name: </p></li>
+							<li><p id="birthdate-out">Birth Date: </p></li>
+							<li><p id="address-out">Address: </p></li>
+							<li><p id="email-out">Email: </p></li>
+							<li><p id="username-out">Username: </p></li>
+							<li><p id="password-out">Password: ********</p></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -77,7 +101,17 @@
 			} else if (page === 2) {
 				const form = document.getElementById('form-field-2');
 				if (form.checkValidity()) {
-					swal('Signup successful!', '', 'success');
+					if ($('#password').val() !== $('#confirm-password').val()) {
+						swal('Passwords does not match', '', 'error');
+					} else {
+						swal('Signup successful!', '', 'success').then((okay) => {
+							if (okay) {
+								showAllInputs();
+								$('.signup-container').hide();
+								$('.dashboard-container').fadeIn();
+							}
+						});
+					}
 				} else {
 					swal('Some fields are invalid!', '', 'error');
 				}
@@ -91,6 +125,27 @@
 			$('#signup-field-1').slideDown();
 			page = 1;
 		});
+		const extractInputForms = (formId) => {
+			let formData = {};
+			$(formId).find('input').each(function() {
+                var name = $(this).attr('name');
+                var value = $(this).val();
+                formData[name] = value;
+            });
+            return formData;
+		}
+		const addInnerHTML = (target, input) => {
+			$(target).html($(target).html() + input);
+		}
+		const showAllInputs = () => {
+			const dataFromForm1 = extractInputForms('#form-field-1');
+			const dataFromForm2 = extractInputForms('#form-field-2');
+			addInnerHTML('#full-name-out', dataFromForm1['last-name'] + " " + dataFromForm1['first-name']);
+			addInnerHTML('#birthdate-out', dataFromForm1['birthdate']);
+			addInnerHTML('#address-out', dataFromForm1['address-1'] + ", " + dataFromForm1['address-2']);
+			addInnerHTML('#email-out', dataFromForm2['email']);
+			addInnerHTML('#username-out', dataFromForm2['username']);
+		}
 	</script>
 </body>
 </html>
