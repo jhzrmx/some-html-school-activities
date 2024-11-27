@@ -1,0 +1,61 @@
+body {
+	margin: 0;
+}
+.semi-title {
+	text-align: center;
+}
+.page-container {
+	background-color: #444;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.signup-container {
+	margin: 2em;
+	max-width: 20em;
+	padding: 0.5em;
+	background-color: #ddd;
+	border-radius: 0.5em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.signup-fields {
+	margin: 0.5em;
+}
+#main-button {
+	border: transparent;
+	border-radius: 0.5em;
+	padding: 0.8em;
+	background-color: green;
+	color: white;
+	margin-bottom: 0.5em;
+}
+#back-button {
+	color: blue;
+	background-color: transparent;
+	outline: none;
+	border: none;
+}
+button:hover {
+	cursor: pointer;
+	opacity: 0.8;
+}
+label {
+	font-size: 0.9em;
+}
+input {
+	width: 22em;
+	margin-top: 0.2em;
+	margin-bottom: 0.7em;
+	padding: 0.1em 0.5em;
+	height: 2em;
+	border: 0.2em solid white;
+	border-radius: 0.5em;
+}
+input:focus {
+	outline: none;
+	border: 0.2em solid green;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="inter-variable.css">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script type="text/javascript" src="jquery-3.7.1.min.js"></script>
+	<script type="text/javascript" src="sweetalert.min.js"></script>
+	<title>Sign Up Form</title>
+</head>
+<body>
+	<div class="page-container">
+		<div class="signup-container">
+			<h2 class="semi-title">Sign Up</h2>
+			<div class="signup-fields" id="signup-field-1">
+				<form id="form-field-1">
+					<label for="last-name">Last Name</label>
+					<input type="text" name="last-name" required><br>
+					<label for="first-name">First Name</label>
+					<input type="text" name="first-name" required><br>
+					<label for="birthdate">Birthdate</label>
+					<input type="date" name="birthdate" required><br>
+					<label for="address-1">Address Field 1</label>
+					<input type="text" name="address-1" placeholder="###, Brgy, Town" required><br>
+					<label for="address-2">Address Field 2</label>
+					<input type="text" name="address-2" placeholder="Province, Region, Country" required>
+				</form>
+			</div>
+			<div class="signup-fields" id="signup-field-2" hidden>
+				<form id="form-field-2">
+					<label for="email">Email</label>
+					<input type="email" name="email" required><br>
+					<label for="username">Username</label>
+					<input type="text" name="username" required><br>
+					<label for="password">Password</label>
+					<input type="password" name="password" required>
+				</form>
+			</div>
+			<div>
+				<button id="main-button">Next ></button>
+			</div>
+			<button id="back-button" hidden>Back</button>
+		</div>
+	</div>
+	<script type="text/javascript">
+		let page = 1;
+		const verifyFormInputFields = (formField) => {
+			$(formField + ' input').each(function () {
+				if (!this.checkValidity()) {
+					$(this).css('border', '0.2em solid #d00');
+				} else {
+					$(this).css('border', '0.2em solid white');
+				}
+			});
+		}
+		$('form input').on('input', function () {
+			if ($(this).val().trim() === '') {
+				$(this).css('border', '0.2em solid #d00');
+			} else {
+				$(this).css('border', '0.2em solid white');
+			}
+		});
+		$('#main-button').click((event) => {
+			if (page === 1) {
+				const form = document.getElementById('form-field-1');
+				if (form.checkValidity()) {
+					$('#main-button').html('Sign Up');
+					$('#signup-field-1').slideUp();
+					$('#signup-field-2').slideDown();
+					$('#back-button').slideDown();
+					page = 2;
+				} else {
+					swal('Please fill the required fields!', '', 'error');
+				}
+				verifyFormInputFields("#form-field-1");
+			} else if (page === 2) {
+				const form = document.getElementById('form-field-2');
+				if (form.checkValidity()) {
+					swal('Signup successful!', '', 'success');
+				} else {
+					swal('Some fields are invalid!', '', 'error');
+				}
+				verifyFormInputFields("#form-field-2");
+			}
+		});
+		$('#back-button').click((event) => {
+			$('#main-button').html('Next >');
+			$('#back-button').slideUp();
+			$('#signup-field-2').slideUp();
+			$('#signup-field-1').slideDown();
+			page = 1;
+		});
+	</script>
+</body>
+</html>
