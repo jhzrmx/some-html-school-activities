@@ -170,7 +170,7 @@
 	        const dataFromForm1 = extractInputForms('#form-field-1');
 	        const dataFromForm2 = extractInputForms('#form-field-2');
 
-	        addInnerHTML('#full-name-out', `${dataFromForm1['last-name']} ${dataFromForm1['first-name']}`);
+	        addInnerHTML('#full-name-out', `${dataFromForm1['last-name']}, ${dataFromForm1['first-name']}`);
 	        addInnerHTML('#birthdate-out', dataFromForm1['birthdate']);
 	        addInnerHTML('#address-out', `${dataFromForm1['address-1']}, ${dataFromForm1['address-2']}`);
 	        addInnerHTML('#email-out', dataFromForm2['email']);
