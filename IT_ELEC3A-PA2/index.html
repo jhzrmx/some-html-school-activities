@@ -32,11 +32,12 @@
 					<label for="email">Email</label>
 					<input type="email" name="email" required><br>
 					<label for="username">Username</label>
-					<input type="text" name="username" required><br>
+					<input type="text" name="username" autocapitalize="none" required><br>
 					<label for="password">Password</label>
 					<input type="password" name="password" id="password" minlength="8" maxlength="50" required>
 					<label for="confirm-password">Confirm Password</label>
 					<input type="password" name="confirm-password" id="confirm-password" minlength="8" maxlength="50" required>
+					<p id="password-rules">Password should include at least <b>8 characters</b>, an <b>uppercase letter</b>, a <b>lowercase letter</b>, a <b>number</b>, and a <b>special character</b>.</p>
 				</form>
 			</div>
 			<div>
@@ -68,84 +69,129 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		let page = 1;
-		const verifyFormInputFields = (formField) => {
-			$(formField + ' input').each(function () {
-				if (!this.checkValidity()) {
-					$(this).css('border', '0.2em solid #d00');
-				} else {
-					$(this).css('border', '0.2em solid white');
-				}
-			});
-		}
-		$('form input').on('input', function () {
-			if ($(this).val().trim() === '') {
-				$(this).css('border', '0.2em solid #d00');
-			} else {
-				$(this).css('border', '0.2em solid white');
-			}
-		});
-		$('#main-button').click((event) => {
-			if (page === 1) {
-				const form = document.getElementById('form-field-1');
-				if (form.checkValidity()) {
-					$('#main-button').html('Sign Up');
-					$('#signup-field-1').slideUp();
-					$('#signup-field-2').slideDown();
-					$('#back-button').slideDown();
-					page = 2;
-				} else {
-					swal('Please fill the required fields!', '', 'error');
-				}
-				verifyFormInputFields("#form-field-1");
-			} else if (page === 2) {
-				const form = document.getElementById('form-field-2');
-				if (form.checkValidity()) {
-					if ($('#password').val() !== $('#confirm-password').val()) {
-						swal('Passwords does not match', '', 'error');
-					} else {
-						swal('Signup successful!', '', 'success').then((okay) => {
-							if (okay) {
-								showAllInputs();
-								$('.signup-container').hide();
-								$('.dashboard-container').fadeIn();
-							}
-						});
-					}
-				} else {
-					swal('Some fields are invalid!', '', 'error');
-				}
-				verifyFormInputFields("#form-field-2");
-			}
-		});
-		$('#back-button').click((event) => {
-			$('#main-button').html('Next >');
-			$('#back-button').slideUp();
-			$('#signup-field-2').slideUp();
-			$('#signup-field-1').slideDown();
-			page = 1;
-		});
-		const extractInputForms = (formId) => {
-			let formData = {};
-			$(formId).find('input').each(function() {
-                var name = $(this).attr('name');
-                var value = $(this).val();
-                formData[name] = value;
-            });
-            return formData;
-		}
-		const addInnerHTML = (target, input) => {
-			$(target).html($(target).html() + input);
-		}
-		const showAllInputs = () => {
-			const dataFromForm1 = extractInputForms('#form-field-1');
-			const dataFromForm2 = extractInputForms('#form-field-2');
-			addInnerHTML('#full-name-out', dataFromForm1['last-name'] + " " + dataFromForm1['first-name']);
-			addInnerHTML('#birthdate-out', dataFromForm1['birthdate']);
-			addInnerHTML('#address-out', dataFromForm1['address-1'] + ", " + dataFromForm1['address-2']);
-			addInnerHTML('#email-out', dataFromForm2['email']);
-			addInnerHTML('#username-out', dataFromForm2['username']);
-		}
+	    let page = 1;
+
+	    const regexValidators = {
+	        name: /^[a-zA-Z\s]+$/,
+	        address: /^[a-zA-Z0-9\s,.-]+$/,
+	        password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,50}$/
+	    };
+
+	    const validateField = (field, regex) => {
+	        const value = field.val().trim();
+	        if (!regex.test(value)) {
+	            field.css('border', '0.2em solid #d00');
+	            return false;
+	        }
+	        field.css('border', '0.2em solid white');
+	        return true;
+	    };
+
+	    const verifyFormInputFields = (formId) => {
+	        let isValid = true;
+
+	        $(formId).find('input').each(function () {
+	            const field = $(this);
+	            const fieldName = field.attr('name');
+	            const value = field.val().trim();
+
+	            if (fieldName === 'last-name' || fieldName === 'first-name') {
+	                if (!validateField(field, regexValidators.name)) isValid = false;
+	            } else if (fieldName.startsWith('address')) {
+	                if (!validateField(field, regexValidators.address)) isValid = false;
+	            } else if (fieldName === 'password' || fieldName === 'confirm-password') {
+	                if (!validateField(field, regexValidators.password)) isValid = false;
+	            } else if (value === '') {
+	                field.css('border', '0.2em solid #d00');
+	                isValid = false;
+	            } else {
+	                field.css('border', '0.2em solid white');
+	            }
+	        });
+
+	        return isValid;
+	    };
+
+	    $('#main-button').click(() => {
+	        if (page === 1) {
+	            const formValid = verifyFormInputFields('#form-field-1');
+	            if (formValid) {
+	                $('#main-button').html('Sign Up');
+	                $('#signup-field-1').slideUp();
+	                $('#signup-field-2').slideDown();
+	                $('#back-button').slideDown();
+	                page = 2;
+	            } else {
+	                swal('Please fill in all required fields correctly!', '', 'error');
+	            }
+	        } else if (page === 2) {
+	            const formValid = verifyFormInputFields('#form-field-2');
+	            if (formValid) {
+	                if ($('#password').val() !== $('#confirm-password').val()) {
+	                    swal('Passwords do not match!', '', 'error');
+	                } else {
+	                    swal('Signup successful!', '', 'success').then((okay) => {
+	                        if (okay) {
+	                            showAllInputs();
+	                            $('.signup-container').hide();
+	                            $('.dashboard-container').fadeIn();
+	                        }
+	                    });
+	                }
+	            } else {
+	                swal('Please fill in all fields correctly!', '', 'error');
+	            }
+	        }
+	    });
+
+	    $('#back-button').click(() => {
+	        $('#main-button').html('Next >');
+	        $('#back-button').slideUp();
+	        $('#signup-field-2').slideUp();
+	        $('#signup-field-1').slideDown();
+	        page = 1;
+	    });
+
+	    const extractInputForms = (formId) => {
+	        let formData = {};
+	        $(formId).find('input').each(function () {
+	            const name = $(this).attr('name');
+	            const value = $(this).val().trim();
+	            formData[name] = value;
+	        });
+	        return formData;
+	    };
+
+	    const addInnerHTML = (target, input) => {
+	        $(target).html($(target).html() + input);
+	    };
+
+	    const showAllInputs = () => {
+	        const dataFromForm1 = extractInputForms('#form-field-1');
+	        const dataFromForm2 = extractInputForms('#form-field-2');
+
+	        addInnerHTML('#full-name-out', `${dataFromForm1['last-name']} ${dataFromForm1['first-name']}`);
+	        addInnerHTML('#birthdate-out', dataFromForm1['birthdate']);
+	        addInnerHTML('#address-out', `${dataFromForm1['address-1']}, ${dataFromForm1['address-2']}`);
+	        addInnerHTML('#email-out', dataFromForm2['email']);
+	        addInnerHTML('#username-out', dataFromForm2['username']);
+	    };
+
+	    $('form input').on('input', function () {
+	        const field = $(this);
+	        const fieldName = field.attr('name');
+	        if (fieldName === 'last-name' || fieldName === 'first-name') {
+	            validateField(field, regexValidators.name);
+	        } else if (fieldName.startsWith('address')) {
+	            validateField(field, regexValidators.address);
+	        } else if (fieldName === 'password' || fieldName === 'confirm-password') {
+	            validateField(field, regexValidators.password);
+	        } else if (field.val().trim() === '') {
+	            field.css('border', '0.2em solid #d00');
+	        } else {
+	            field.css('border', '0.2em solid white');
+	        }
+	    });
 	</script>
 </body>
 </html>

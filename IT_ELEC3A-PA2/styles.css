@@ -87,6 +87,11 @@ nav h1 {
 .description {
 	padding: 1em;
 }
+#password-rules {
+	color: #050;
+	margin: 0 0 1.5em 0;
+	font-size: 0.8em;
+}
 
 @media only screen and (max-width: 720px) {
 	.dashboard-container .content {
