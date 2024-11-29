@@ -91,8 +91,8 @@
 	    const verifyFormInputFields = (formId) => {
 	        let isValid = true;
 
-	        $(formId).find('input').each(function () {
-	            const field = $(this);
+	        $(formId).find('input').each((index, element) => {
+	            const field = $(element);
 	            const fieldName = field.attr('name');
 	            const value = field.val().trim();
 
@@ -109,7 +109,6 @@
 	                field.css('border', '0.2em solid white');
 	            }
 	        });
-
 	        return isValid;
 	    };
 
@@ -155,9 +154,9 @@
 
 	    const extractInputForms = (formId) => {
 	        let formData = {};
-	        $(formId).find('input').each(function () {
-	            const name = $(this).attr('name');
-	            const value = $(this).val().trim();
+	        $(formId).find('input').each((index, element) => {
+	            const name = $(element).attr('name');
+	            const value = $(element).val().trim();
 	            formData[name] = value;
 	        });
 	        return formData;
@@ -178,8 +177,8 @@
 	        addInnerHTML('#username-out', dataFromForm2['username']);
 	    };
 
-	    $('form input').on('input', function () {
-	        const field = $(this);
+	    const changeInputBorder = (event) => {
+	    	const field = $(event.target);
 	        const fieldName = field.attr('name');
 	        if (fieldName === 'last-name' || fieldName === 'first-name') {
 	            validateField(field, regexValidators.name);
@@ -192,7 +191,10 @@
 	        } else {
 	            field.css('border', '0.2em solid white');
 	        }
-	    });
+	    }
+
+	    $('form input').on('input', changeInputBorder);
+	    $('form input').on('focusout', changeInputBorder);
 	</script>
 </body>
 </html>
