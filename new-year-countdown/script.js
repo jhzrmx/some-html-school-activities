@@ -3,6 +3,7 @@ const isJanOne = currentDate.getMonth() === 0 && currentDate.getDate() === 1;
 const nextYear = currentDate.getFullYear() + 1;
 const countdown = document.getElementById("countdown");
 const countDownDate = new Date("Jan 1, " + nextYear + " 00:00:00").getTime();
+const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM&itag=140");
 
 document.getElementById("next-year").innerHTML = isJanOne ? (nextYear-1) : nextYear;
 
@@ -36,7 +37,6 @@ const currentInterval = setInterval(() => {
 
 setTimeout(() => {
   if (confirm("Play background music?")) {
-    const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM&itag=140");
     bgMusic.loop = true;
     bgMusic.play();
   }
