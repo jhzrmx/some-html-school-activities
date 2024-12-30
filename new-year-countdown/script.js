@@ -25,7 +25,7 @@ const currentInterval = setInterval(() => {
   if (!bgHasPlayed) {
     new Audio("tick.aac").play();
   }
-  
+
   let now = new Date().getTime();
   let distance = countDownDate - now;
   let hours = Math.floor(distance / (1000 * 60 * 60));
@@ -41,7 +41,7 @@ const currentInterval = setInterval(() => {
 
 setTimeout(() => {
   if (confirm("Play background music?")) {
-    bgHasPlayed = false
+    bgHasPlayed = true;
     bgMusic.loop = true;
     bgMusic.play();
   }
