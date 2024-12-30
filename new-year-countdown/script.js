@@ -4,6 +4,7 @@ const nextYear = currentDate.getFullYear() + 1;
 const countdown = document.getElementById("countdown");
 const countDownDate = new Date("Jan 1, " + nextYear + " 00:00:00").getTime();
 const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM&itag=140");
+let bgHasPlayed = false;
 
 document.getElementById("next-year").innerHTML = isJanOne ? (nextYear-1) : nextYear;
 
@@ -20,8 +21,11 @@ const currentInterval = setInterval(() => {
     displayNewYear();
     clearInterval(currentInterval);
   }
+
+  if (!bgHasPlayed) {
+    new Audio("tick.aac").play();
+  }
   
-  new Audio("tick.aac").play();
   let now = new Date().getTime();
   let distance = countDownDate - now;
   let hours = Math.floor(distance / (1000 * 60 * 60));
@@ -37,6 +41,7 @@ const currentInterval = setInterval(() => {
 
 setTimeout(() => {
   if (confirm("Play background music?")) {
+    bgHasPlayed = false
     bgMusic.loop = true;
     bgMusic.play();
   }
