@@ -13,6 +13,7 @@ body {
 
 #countdown-container {
   text-align: center;
+  transform: translateY(-2em);
 }
 
 #countdown {
@@ -22,6 +23,6 @@ body {
 
 @media (max-width: 600px) {
   #countdown {
-    font-size: 6em;
+    font-size: 5.5em;
   }
 }

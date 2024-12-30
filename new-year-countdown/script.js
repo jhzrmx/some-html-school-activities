@@ -19,6 +19,7 @@ const currentInterval = setInterval(() => {
     displayNewYear();
     clearInterval(currentInterval);
   }
+  
   new Audio("tick.aac").play();
   let now = new Date().getTime();
   let distance = countDownDate - now;
