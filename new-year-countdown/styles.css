@@ -1,5 +1,4 @@
 body {
-  font-size: 120%;
   font-family: 'Digital-7 Mono', sans-serif;
   background-color: #111;
   color: #eee;
@@ -17,12 +16,12 @@ body {
 }
 
 #countdown {
-  font-size: 5em;
+  font-size: 7.5em;
   color: #0f0;
 }
 
 @media (max-width: 600px) {
   #countdown {
-    font-size: 3.5em;
+    font-size: 6em;
   }
 }
