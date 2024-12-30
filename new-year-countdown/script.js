@@ -5,6 +5,7 @@ const countdown = document.getElementById("countdown");
 const countDownDate = new Date("Jan 1, " + nextYear + " 00:00:00").getTime();
 const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM&itag=140");
 let tickSound = null;
+let count = -999999999;
 
 document.getElementById("next-year").innerHTML = isJanOne ? (nextYear-1) : nextYear;
 
@@ -23,7 +24,10 @@ const currentInterval = setInterval(() => {
   }
 
   if (tickSound != null) {
-    tickSound.play();
+    if (count%3) {
+      tickSound.play();
+    }
+    count++;
   }
 
   let now = new Date().getTime();
