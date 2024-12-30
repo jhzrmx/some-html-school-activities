@@ -40,15 +40,9 @@ const currentInterval = setInterval(() => {
 }, 1000);
 
 setTimeout(() => {
-  const playMusic = confirm("Play background music?");
-  if (playMusic) {
-    document.body.innerHTML += `<button id="playMusicButton" style="display: none;">Play Music</button>`;
-    const playMusicButton = document.getElementById("playMusicButton");
-    playMusicButton.onclick = () => {
-      bgMusicHasPlayed = true;
-      bgMusic.loop = true;
-      bgMusic.play();
-    }
-    playMusicButton.click();
+  if (confirm("Play background music?")) {
+    bgMusicHasPlayed = true;
+    bgMusic.loop = true;
+    bgMusic.play();
   }
 }, 3000);
