@@ -34,8 +34,10 @@ const currentInterval = setInterval(() => {
   }
 }, 1000);
 
-if (confirm("Play background music?")) {
-  const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM");
-  bgMusic.loop = true;
-  bgMusic.play();
-}
+setTimeout(() => {
+  if (confirm("Play background music?")) {
+    const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM&itag=140");
+    bgMusic.loop = true;
+    bgMusic.play();
+  }
+}, 3000);
