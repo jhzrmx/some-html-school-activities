@@ -39,6 +39,50 @@ body::before {
   color: #0f0;
 }
 
+#musicModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#musicModal div {
+  text-align: center;
+  color: #fff;
+}
+
+#musicModal button {
+  margin: 1em;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#playMusic {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+#dismissMusic {
+  background-color: #f44336;
+  color: #fff;
+}
+
+#musicModal button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+
 @media (max-width: 600px) {
   #countdown {
     font-size: 5.5em;

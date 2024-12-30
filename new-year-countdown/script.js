@@ -4,7 +4,7 @@ const nextYear = currentDate.getFullYear() + 1;
 const countdown = document.getElementById("countdown");
 const countDownDate = new Date("Jan 1, " + nextYear + " 00:00:00").getTime();
 const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM&itag=140");
-let bgMusicHasPlayed = false;
+let tickSound = null;
 
 document.getElementById("next-year").innerHTML = isJanOne ? (nextYear-1) : nextYear;
 
@@ -22,8 +22,8 @@ const currentInterval = setInterval(() => {
     clearInterval(currentInterval);
   }
 
-  if (!bgMusicHasPlayed) {
-    new Audio("tick.aac").play();
+  if (tickSound != null) {
+    tickSound.play();
   }
 
   let now = new Date().getTime();
@@ -37,12 +37,32 @@ const currentInterval = setInterval(() => {
     displayNewYear();
     clearInterval(currentInterval);
   }
-}, 1000);
+}, 333);
 
-setTimeout(() => {
-  if (confirm("Play background music?")) {
-    bgMusicHasPlayed = true;
+const createMusicPrompt = () => {
+  const modal = document.createElement('div');
+  modal.id = 'musicModal';
+  modal.innerHTML = `
+    <div>
+      <p style="font-size: 1.2em;">Do you want to play background music?</p>
+      <button id="playMusic">Yes</button>
+      <button id="dismissMusic">No</button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  document.getElementById("playMusic").addEventListener("click", () => {
     bgMusic.loop = true;
     bgMusic.play();
-  }
-}, 3000);
+    document.body.removeChild(modal);
+  });
+
+  document.getElementById("dismissMusic").addEventListener("click", () => {
+    tickSound = new Audio("tick.aac");
+    document.body.removeChild(modal);
+  });
+};
+
+setTimeout(() => {
+  createMusicPrompt();
+}, 1000);
