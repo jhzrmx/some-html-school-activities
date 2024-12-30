@@ -4,7 +4,7 @@ const nextYear = currentDate.getFullYear() + 1;
 const countdown = document.getElementById("countdown");
 const countDownDate = new Date("Jan 1, " + nextYear + " 00:00:00").getTime();
 const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM&itag=140");
-let bgHasPlayed = false;
+let bgMusicHasPlayed = false;
 
 document.getElementById("next-year").innerHTML = isJanOne ? (nextYear-1) : nextYear;
 
@@ -22,7 +22,7 @@ const currentInterval = setInterval(() => {
     clearInterval(currentInterval);
   }
 
-  if (!bgHasPlayed) {
+  if (!bgMusicHasPlayed) {
     new Audio("tick.aac").play();
   }
 
@@ -40,9 +40,15 @@ const currentInterval = setInterval(() => {
 }, 1000);
 
 setTimeout(() => {
-  if (confirm("Play background music?")) {
-    bgHasPlayed = true;
-    bgMusic.loop = true;
-    bgMusic.play();
+  const playMusic = confirm("Play background music?");
+  if (playMusic) {
+    document.body.innerHTML += `<button id="playMusicButton" style="display: none;">Play Music</button>`;
+    const playMusicButton = document.getElementById("playMusicButton");
+    playMusicButton.onclick = () => {
+      bgMusicHasPlayed = true;
+      bgMusic.loop = true;
+      bgMusic.play();
+    }
+    playMusicButton.click();
   }
 }, 3000);
