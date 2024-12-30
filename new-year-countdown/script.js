@@ -7,9 +7,9 @@ const countDownDate = new Date("Jan 1, " + nextYear + " 00:00:00").getTime();
 document.getElementById("next-year").innerHTML = isJanOne ? (nextYear-1) : nextYear;
 
 const displayNewYear = () => {
-  const audio = new Audio("hapinyoyir.aac");
-  audio.loop = true;
-  audio.play();
+  const hapinyoyir = new Audio("hapinyoyir.aac");
+  hapinyoyir.loop = true;
+  hapinyoyir.play();
   new Audio("sound.aac").play();
   countdown.innerHTML = "Happy New Year!";
 }
@@ -33,3 +33,9 @@ const currentInterval = setInterval(() => {
     clearInterval(currentInterval);
   }
 }, 1000);
+
+if (confirm("Play background music?")) {
+  const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM");
+  bgMusic.loop = true;
+  bgMusic.play();
+}
