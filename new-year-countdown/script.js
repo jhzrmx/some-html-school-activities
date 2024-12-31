@@ -28,8 +28,8 @@ const currentInterval = setInterval(() => {
     if (count%3 === 0) {
       tickSound.play();
     }
-    count++;
   }
+  count++;
 
   let now = new Date().getTime();
   let distance = countDownDate - now;
