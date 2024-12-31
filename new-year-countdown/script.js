@@ -1,13 +1,13 @@
-const currentDate = new Date();
-const isJanOne = currentDate.getMonth() === 0 && currentDate.getDate() === 1;
-const nextYear = isJanOne ? currentDate.getFullYear() : (currentDate.getFullYear()+1);
+let currentDate = new Date();
+const isJanOne = () => currentDate.getMonth() === 0 && currentDate.getDate() === 1;
+const nextYear = isJanOne() ? currentDate.getFullYear() : (currentDate.getFullYear()+1);
 const countdown = document.getElementById("countdown");
 const countDownDate = new Date("Jan 1, " + nextYear + " 00:00:00").getTime();
 // const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM&itag=140");
 const bgMusic = new Audio("bg-music.m4a");
 const hapinyoyir = new Audio("hapinyoyir.aac");
 let tickSound = null;
-let count = -999999998;
+let count = -999999999;
 
 document.getElementById("next-year").innerHTML = nextYear;
 
@@ -19,11 +19,6 @@ const displayNewYear = () => {
 }
 
 const currentInterval = setInterval(() => {
-  if (isJanOne) {
-    displayNewYear();
-    clearInterval(currentInterval);
-  }
-
   if (tickSound != null) {
     if (count%3 === 0) {
       tickSound.play();
@@ -31,8 +26,8 @@ const currentInterval = setInterval(() => {
   }
   count++;
 
-  let now = new Date().getTime();
-  let distance = countDownDate - now;
+  currentDate = new Date();
+  let distance = countDownDate - currentDate.getTime();
   let hours = Math.floor(distance / (1000 * 60 * 60));
   let minutes = ('0' + Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).slice(-2);
   let seconds = ('0' + Math.floor((distance % (1000 * 60)) / 1000)).slice(-2);
@@ -59,11 +54,17 @@ const createMusicPrompt = () => {
   document.getElementById("playMusic").addEventListener("click", () => {
     bgMusic.loop = true;
     bgMusic.play();
+    if (isJanOne()) {
+      displayNewYear();
+    }
     document.body.removeChild(modal);
   });
 
   document.getElementById("dismissMusic").addEventListener("click", () => {
     tickSound = new Audio("tick.aac");
+    if (isJanOne()) {
+      displayNewYear();
+    }
     document.body.removeChild(modal);
   });
 };

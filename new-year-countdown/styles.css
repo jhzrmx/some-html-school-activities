@@ -24,7 +24,7 @@ body::before {
   background: url('bg-fireworks.gif') no-repeat center center fixed;
   background-size: cover;
   opacity: 0.3;
-  filter: blur(0.5em);
+  filter: blur(0.3em);
   z-index: -1;
 }
 
