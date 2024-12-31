@@ -1,17 +1,17 @@
 const currentDate = new Date();
 const isJanOne = currentDate.getMonth() === 0 && currentDate.getDate() === 1;
-const nextYear = currentDate.getFullYear() + 1;
+const nextYear = isJanOne ? currentDate.getFullYear() : (currentDate.getFullYear()+1);
 const countdown = document.getElementById("countdown");
 const countDownDate = new Date("Jan 1, " + nextYear + " 00:00:00").getTime();
 // const bgMusic = new Audio("https://invidious.nerdvpn.de/latest_version?id=bNZ7H3n0rsM&itag=140");
 const bgMusic = new Audio("bg-music.m4a");
+const hapinyoyir = new Audio("hapinyoyir.aac");
 let tickSound = null;
 let count = -999999999;
 
-document.getElementById("next-year").innerHTML = isJanOne ? (nextYear-1) : nextYear;
+document.getElementById("next-year").innerHTML = nextYear;
 
 const displayNewYear = () => {
-  const hapinyoyir = new Audio("hapinyoyir.aac");
   hapinyoyir.loop = true;
   hapinyoyir.play();
   new Audio("sound.aac").play();
@@ -25,7 +25,7 @@ const currentInterval = setInterval(() => {
   }
 
   if (tickSound != null) {
-    if (count%3) {
+    if (count%3 === 0) {
       tickSound.play();
     }
     count++;
