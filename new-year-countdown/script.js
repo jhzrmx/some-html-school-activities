@@ -7,24 +7,19 @@ const countDownDate = new Date("Jan 1, " + nextYear + " 00:00:00").getTime();
 const bgMusic = new Audio("bg-music.m4a");
 const hapinyoyir = new Audio("hapinyoyir.aac");
 let tickSound = null;
-let count = -999999999;
 
 document.getElementById("next-year").innerHTML = nextYear;
 
-const displayNewYear = () => {
+const playNewYearSound = () => {
   hapinyoyir.loop = true;
   hapinyoyir.play();
   new Audio("sound.aac").play();
-  countdown.innerHTML = "Happy New Year!";
 }
 
 const currentInterval = setInterval(() => {
   if (tickSound != null) {
-    if (count%3 === 0) {
-      tickSound.play();
-    }
+    tickSound.play();
   }
-  count++;
 
   currentDate = new Date();
   let distance = countDownDate - currentDate.getTime();
@@ -34,17 +29,18 @@ const currentInterval = setInterval(() => {
   countdown.innerHTML = hours + ":" + minutes + ":" + seconds;
 
   if (distance < 0) {
-    displayNewYear();
+    countdown.innerHTML = "Happy New Year!";
+    playNewYearSound();
     clearInterval(currentInterval);
   }
-}, 333);
+}, 1000);
 
 const createMusicPrompt = () => {
   const modal = document.createElement('div');
   modal.id = 'musicModal';
   modal.innerHTML = `
     <div>
-      <p style="font-size: 1.2em;">Do you want to play background music?</p>
+      <p style="font-size: 1.3em;">Play background music?</p>
       <button id="playMusic">Yes</button>
       <button id="dismissMusic">No</button>
     </div>
@@ -55,7 +51,7 @@ const createMusicPrompt = () => {
     bgMusic.loop = true;
     bgMusic.play();
     if (isJanOne()) {
-      displayNewYear();
+      playNewYearSound();
     }
     document.body.removeChild(modal);
   });
@@ -63,7 +59,7 @@ const createMusicPrompt = () => {
   document.getElementById("dismissMusic").addEventListener("click", () => {
     tickSound = new Audio("tick.aac");
     if (isJanOne()) {
-      displayNewYear();
+      playNewYearSound();
     }
     document.body.removeChild(modal);
   });
@@ -71,4 +67,4 @@ const createMusicPrompt = () => {
 
 setTimeout(() => {
   createMusicPrompt();
-}, 1000);
+}, 1500);
