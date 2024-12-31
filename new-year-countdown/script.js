@@ -7,7 +7,7 @@ const countDownDate = new Date("Jan 1, " + nextYear + " 00:00:00").getTime();
 const bgMusic = new Audio("bg-music.m4a");
 const hapinyoyir = new Audio("hapinyoyir.aac");
 let tickSound = null;
-let count = -999999999;
+let count = -999999998;
 
 document.getElementById("next-year").innerHTML = nextYear;
 
